@@ -2,12 +2,14 @@ package com.classy.class_2021a_ands_3;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,9 +45,14 @@ public class MyImageUtils {
     }
 
     public void loadImage(Drawable drawable, ImageView imageView) {
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        String path = MediaStore.Images.Media.insertImage(appContext.getContentResolver(), bitmap, "Title", null);
+
         Glide
                 .with(appContext)
-                .load(drawable)
+                .load(bitmap)
                 .into(imageView);
     }
 

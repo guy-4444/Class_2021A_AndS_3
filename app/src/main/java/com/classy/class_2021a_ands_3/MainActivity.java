@@ -2,28 +2,38 @@ package com.classy.class_2021a_ands_3;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.paz.accesstolib.GiveMe;
 import com.paz.accesstolib.GrantListener;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import static com.classy.class_2021a_ands_3.MainActivity.*;
+
+public class MainActivity extends AppCompatActivity implements CallBack_MainActivity {
 
     // 96a95018cff24b0a828e1e0f90faa488
     // https://currencyfreaks.com/pricing.html
@@ -34,12 +44,13 @@ public class MainActivity extends AppCompatActivity {
     private GiveMe giveMe;
     private ViewController viewController;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        viewController = new ViewController(this, inputListener);
+        viewController = new ViewController(this, inputListener, this);
         giveMe = new GiveMe(this);
         myLocationHelper = new MyLocationHelper(this);
         dataManager = new DataManager(this, Constants.CURRENCY_API);
@@ -121,4 +132,18 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         giveMe.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void openPrivacyPolicy() {
+        // https://app-privacy-policy-generator.firebaseapp.com/
+        // https://sites.google.com/view/super-currency-privacy-policy
+        MyUtils.openHtmlTextDialog(this, "privacy_policy.html");
+
+    }
+
+    @Override
+    public void openTermsOfUse() {
+        MyUtils.openHtmlTextDialog(this,  "terms_of_use.html");
+    }
+
 }
